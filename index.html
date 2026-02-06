@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إلى حبيبتي ملاك</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cairo:wght@300;600;800&family=Reem+Kufi:wght@400;700&display=swap');
+
+        :root {
+            --royal-purple: #1a0b2e;
+            --soft-pink: #ffc2d1;
+            --deep-pink: #fb6f92;
+            --gold: #ffd700;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle at center, #2d004d 0%, #000000 100%);
+            color: white;
+            font-family: 'Cairo', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* شاشة البداية لضمان عمل الصوت */
+        #start-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: opacity 1s;
+        }
+
+        .start-btn {
+            padding: 20px 50px;
+            font-size: 1.5rem;
+            background: var(--deep-pink);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            box-shadow: 0 0 30px var(--deep-pink);
+            animation: pulse 2s infinite;
+            cursor: pointer;
+            font-family: 'Reem Kufi', sans-serif;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(251, 111, 146, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(251, 111, 146, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(251, 111, 146, 0); }
+        }
+
+        /* الحاوية الرئيسية */
+        .container {
+            width: 85%;
+            max-width: 600px;
+            background: rgba(20, 10, 30, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            padding: 30px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            text-align: center;
+            display: none; /* مخفي حتى يتم الضغط على البدء */
+            position: relative;
+            z-index: 10;
+        }
+
+        .page { display: none; animation: fadeIn 1s ease; }
+        .active { display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        h1 { color: var(--gold); font-family: 'Reem Kufi', sans-serif; margin-bottom: 10px; }
+        p { font-size: 1.2rem; line-height: 1.8; margin: 15px 0; color: #f0f0f0; }
+        
+        .highlight { color: var(--gold); font-weight: bold; }
+        .pink-text { color: var(--deep-pink); font-weight: bold; }
+        
+        .poem-text {
+            font-family: 'Amiri', serif;
+            font-size: 1.5rem;
+            color: #fff;
+            background: linear-gradient(45deg, var(--gold), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 20px 0;
+            line-height: 2.2;
+        }
+
+        .btn {
+            background: transparent;
+            border: 2px solid var(--soft-pink);
+            color: var(--soft-pink);
+            padding: 10px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+        .btn:hover { background: var(--soft-pink); color: #000; }
+/* القطط */
+        .cat-corner {
+            position: fixed;
+            bottom: 10px;
+            font-size: 4rem;
+            z-index: 5;
+            transition: 0.3s;
+        }
+        .cat-black { left: 10px; }
+        .cat-orange { right: 10px; transform: scaleX(-1); }
+/* القلوب */
+        .heart {
+            position: absolute;
+            color: var(--deep-pink);
+            animation: float 6s linear infinite;
+            top: 100vh;
+            z-index: 1;
+        }
+        @keyframes float { to { transform: translateY(-120vh) rotate(360deg); } }
+
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop>
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="start-screen" onclick="startSurprise()">
+        <div style="font-size: 4rem; margin-bottom: 20px;">💌</div>
+        <button class="start-btn">اضغطي هنا يا ملاك</button>
+        <p style="margin-top: 15px; color: #aaa; font-size: 0.9rem;">(يوجد موسيقى 🎵)</p>
+    </div>
+
+    <div class="cat-corner cat-black">🐈‍⬛</div>
+    <div class="cat-corner cat-orange">🐈</div>
+
+    <div class="container" id="mainContainer">
+        
+        <div id="p1" class="page active">
+            <h1>إلى حبيبتي 👑</h1>
+            <p>إلى الإنسانة التي لم تكن يوماً مجرد عابرة..</p>
+            <p>بل كانت <span class="highlight">الضوء</span> الذي أضاء عتمتي.</p>
+            <button class="btn" onclick="nextPage(2)">أكملي..</button>
+        </div>
+
+        <div id="p2" class="page">
+            <p>منذ أن دخلتِ حياتي، تغير كل شيء..</p>
+            <p>صوتكِ أصبح أماني، وضحكتكِ هي <span class="pink-text">أغنيتي المفضلة</span>.</p>
+            <p>لم أحبكِ لشيء، بل أحببتكِ لأنكِ كل شيء.</p>
+            <button class="btn" onclick="nextPage(3)">التاريخ المميز..</button>
+        </div>
+
+        <div id="p3" class="page">
+            <p>تلك الليلة التي اعترفنا فيها بقلوبنا..</p>
+            <div style="border: 1px solid gold; padding: 10px; border-radius: 20px; display:inline-block; margin: 10px;">✨ 28 أكتوبر ✨</div>
+            <p>كانت ميلاداً جديداً لروحي.</p>
+            <button class="btn" onclick="nextPage(4)">شعر لكِ..</button>
+        </div>
+
+        <div id="p4" class="page">
+            <div class="poem-text">
+                ملاكُ، يا سرَّ الجمالِ وبهجتي<br>
+                يا منبعَ الآمالِ، يا روحَ المُنى<br>
+                أنتِ الضياءُ إذا الظلامُ تكاثفَتْ<br>
+                أنتِ الأمانُ إذا تزلزلَ موطِنا
+            </div>
+            <button class="btn" onclick="nextPage(5)">البقية..</button>
+        </div>
+
+        <div id="p5" class="page">
+            <div class="poem-text">
+                كلُّ الحياةِ أراكِ، بل أنتِ الحياةْ<br>
+                أنتِ السعادةُ، أنتِ عمري كلُّهُ<br>
+                إن غبتِ عن عيني، يضيعُ وجودُها
+            </div>
+            <button class="btn" onclick="nextPage(6)">وعدي..</button>
+        </div>
+
+        <div id="p6" class="page">
+            <p class="highlight">أعدكِ..</p>
+            <p>أن أكون لكِ السند الذي لا يميل.</p>
+            <p>أحبكِ في حزنكِ قبل فرحكِ.</p>
+            <p>يداً بيد، سنبني أحلامنا.</p>
+            <button class="btn" onclick="nextPage(7)">الختام ❤️</button>
+        </div>
+
+        <div id="p7" class="page">
+            <p>والله كانت هذه أجمل أشهر حياتي..</p>
+            <p>أريد باقي عمري معكِ.</p>
+            <h2 class="highlight">نحبك بروحي وقلبي يا ملاك</h2>
+            <div style="font-size: 3rem; margin-top: 10px;">🐈‍⬛❤️🐈</div>
+            <p style="font-size: 0.8rem; opacity: 0.7;">(28 أكتوبر - للأبد)</p>
+        </div>
+
+    </div>
+
+    <script>
+        function startSurprise() {
+            // تشغيل الموسيقى
+            var audio = document.getElementById("bgMusic");
+            audio.volume = 0.5;
+            audio.play().catch(function(error) {
+                console.log("Audio play failed: " + error);
+                alert("اضغطي مرة أخرى لتشغيل الموسيقى");
+            });
+// إخفاء شاشة البداية وإظهار المحتوى
+            document.getElementById('start-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('start-screen').style.display = 'none';
+                document.getElementById('mainContainer').style.display = 'block';
+                // بدء القلوب
+                setInterval(createHeart, 300);
+            }, 1000);
+        }
+function nextPage(n) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('p' + n).classList.add('active');
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 5000);
+        }
+    </script>
+</body>
+</html>
